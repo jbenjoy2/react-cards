@@ -27,7 +27,7 @@ const Deck = () => {
 			const { deck_id } = deck;
 			const draw = await axios.get(`${API}/${deck_id}/draw/`);
 			console.log(draw.data);
-			if (draw.data.remaining === 0) {
+			if (draw.data.remaining === 0 && !draw.data.success) {
 				throw new Error('No more cards!');
 			}
 			const card = draw.data.cards[0];
@@ -44,9 +44,21 @@ const Deck = () => {
 			alert(error);
 		}
 	};
+
+	const shuffleDeck = async () => {
+		try {
+			const newDeck = await axios.get(`${API}/new/shuffle`);
+			setDeck(newDeck.data);
+			setDrawn([]);
+			console.log(deck);
+		} catch (error) {
+			alert(error);
+		}
+	};
 	return (
 		<div className="Deck">
 			<button onClick={drawCard}>Draw</button>
+			<button onClick={shuffleDeck}>Shuffle</button>
 			<div className="Deck-cards">
 				{drawn.map((card) => (
 					<Card key={card.id} value={card.value} suit={card.suit} image={card.image} />
