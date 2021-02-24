@@ -29,7 +29,6 @@ const Deck = () => {
 
 				try {
 					const draw = await axios.get(`${API}/${deck_id}/draw/`);
-					console.log(draw.data);
 					if (draw.data.remaining === 0 && !draw.data.success) {
 						setAutoDraw(false);
 						throw new Error('No more cards!');
@@ -66,7 +65,6 @@ const Deck = () => {
 		try {
 			const { deck_id } = deck;
 			const draw = await axios.get(`${API}/${deck_id}/draw/`);
-			console.log(draw.data);
 			if (draw.data.remaining === 0 && !draw.data.success) {
 				throw new Error('No more cards!');
 			}
